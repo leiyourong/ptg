@@ -4,7 +4,7 @@ import { deleteItem } from '../actions/index'
 
 const mapStateToProps = state => {
   return {
-    items: state.books
+    items: state.items.books
   }
 }
 

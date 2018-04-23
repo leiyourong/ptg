@@ -22,10 +22,10 @@ export default class App extends Component {
     this.props.deleteItem(id)
   }
 
-  // 注意入参
-  shouldComponentUpdate(nextProps, nextState) {
-     return this.props.items.length !== nextProps.items.length
-  }
+  // // 注意入参
+  // shouldComponentUpdate(nextProps, nextState) {
+  //    return this.props.items.length !== nextProps.items.length
+  // }
 
   render () {
     return (
