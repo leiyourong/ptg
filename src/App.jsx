@@ -11,7 +11,7 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-      console.log('componentDidMount')
+    this.props.getItems()
   }
 
   componentWillUnmount() {
@@ -22,6 +22,10 @@ export default class App extends Component {
     this.props.deleteItem(id)
   }
 
+  addItem ({ name, price }) {
+    this.props.addItem({ name, price })
+  }
+
   // // 注意入参
   // shouldComponentUpdate(nextProps, nextState) {
   //    return this.props.items.length !== nextProps.items.length
@@ -30,7 +34,7 @@ export default class App extends Component {
   render () {
     return (
       <div>
-        <Grid headers={ this.state.headers } items={ this.props.items } deleteItem={ this.deleteItem.bind(this) } ></Grid>
+        <Grid headers={ this.state.headers } items={ this.props.items } addItem={ this.addItem.bind(this) } deleteItem={ this.deleteItem.bind(this) } ></Grid>
       </div>
     )
   }

@@ -36,8 +36,7 @@ module.exports = {
               require('postcss-url'),
               require('postcss-simple-vars'),
               require('postcss-nested'),
-              require('postcss-cssnext'),
-              require('autoprefixer')
+              require('postcss-cssnext')
             ]
           }
         }]

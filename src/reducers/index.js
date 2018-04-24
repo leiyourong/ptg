@@ -1,24 +1,23 @@
-import { DELETE_ITEM, DELETE_ITEM_SUC, DELETE_ITEM_FAIL, DELETE_ITEM_PEDDING } from '../actions/index'
+import { DELETE_ITEM, DELETE_ITEM_SUC, DELETE_ITEM_FAIL, GET_ITEM, GET_ITEM_SUC, GET_ITEM_FAIL  } from '../actions/index'
 import { handleActions } from 'redux-actions'
 import { combineReducers } from 'redux'
 
 const initState = {
-  books: [{
-    id: 1,
-    name: 'JAVA',
-    price: 20
-  }, {
-    id: 2,
-    name: 'JS',
-    price: 21
-  }]
+  books: []
 }
 
 const items = handleActions({
   DELETE_ITEM: (state, action) => {
     let books = state.books
-    books = books.filter(book => (book.id !== action.payload.res))
+    books = books.filter(book => (book.id !== action.payload.data.id))
     return Object.assign({}, state, { books })
+  },
+  GET_ITEM: (state, action) => {
+    let books = action.payload.data.items
+    return Object.assign({}, state, { books })
+  },
+  ADD_ITEM: (state, action) => {
+    return Object.assign({}, state, { books: [ ...state.books, action.payload.data] })
   }
 }, initState)
 // function items(state = initState, action) {

@@ -1,41 +1,41 @@
 export const DELETE_ITEM = 'DELETE_ITEM'
 export const DELETE_ITEM_SUC = 'DELETE_ITEM_SUC'
 export const DELETE_ITEM_FAIL = 'DELETE_ITEM_FAIL'
+export const ADD_ITEM = 'ADD_ITEM'
+export const ADD_ITEM_SUC = 'ADD_ITEM_SUC'
+export const ADD_ITEM_FAIL = 'ADD_ITEM_FAIL'
+export const GET_ITEM = 'GET_ITEM'
+export const GET_ITEM_SUC = 'GET_ITEM_SUC'
+export const GET_ITEM_FAIL = 'GET_ITEM_FAIL'
 import { createAction } from 'redux-actions'
+import { getBooks, deleteBooks, addBook } from '../services/index'
 
 export const deleteItem = createAction(DELETE_ITEM, payload => {
-  // return (dispatch, getState) => {
-  //   dispatch({
-  //     type: DELETE_ITEM_PEDDING,
-  //     payload
-  //   })
-  //
-  //   dispatch(getAsync().then(() => ({
-  //     type: DELETE_ITEM_SUC,
-  //     payload
-  //   })).catch(() => ({
-  //     type: DELETE_ITEM_FAIL,
-  //     payload
-  //   })))
-  // }
-  return getAsync().then(res => ({
+  return deleteBooks(payload).then(data => ({
     type: DELETE_ITEM_SUC,
-    res: payload
-  })).catch(res => ({
+    data
+  })).catch(data => ({
     type: DELETE_ITEM_FAIL,
-    res: payload
+    data
   }))
 })
 
-// redux-thunk 注入 dispatch/getstate 对象
-function getAsync() {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      if (Math.random() > 0.5) {
-        resolve(1)
-      } else {
-        reject(2)
-      }
-    }, 500)
-  })
-}
+export const getItem = createAction(GET_ITEM, payload => {
+  return getBooks().then(data => ({
+    type: GET_ITEM_SUC,
+    data
+  })).catch(data => ({
+    type: GET_ITEM_FAIL,
+    data
+  }))
+})
+
+export const addItem = createAction(ADD_ITEM, payload => {
+  return addBook(payload).then(data => ({
+    type: ADD_ITEM_SUC,
+    data
+  })).catch(data => ({
+    type: ADD_ITEM_FAIL,
+    data
+  }))
+})

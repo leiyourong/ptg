@@ -12,9 +12,19 @@ export default class App extends Component {
     }
   }
 
+  addItem () {
+    this.props.addItem && this.props.addItem({
+      name: this.refs.name.value,
+      price: this.refs.price.value
+    })
+  }
+
   render () {
     return (
-      <div>
+      <div className='grid-container'>
+        <div className='actions'>
+          <input className='action-add' type='button' value='新增' onClick={ this.addItem } />
+        </div>
         <table className='grid'>
           <thead>
             <tr>
@@ -39,6 +49,17 @@ export default class App extends Component {
               }
           </tbody>
         </table>
+        <div className='dialog-form'>
+          <div className='form-item'>
+            <span className='form-item-title'>书名：</span>
+            <input ref='name' type='text' />
+          </div>
+          <div className='form-item'>
+            <span className='form-item-title'>价格：</span>
+            <input ref='price' type='text' />
+          </div>
+          <input className='action-add' type='button' value='确定' onClick={ this.addItem.bind(this) } />
+        </div>
       </div>
     )
   }
