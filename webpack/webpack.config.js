@@ -46,7 +46,10 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'babel-loader',
         query: {
-          presets: ['react', 'es2015', 'stage-0']
+          presets: ['react', 'es2015', 'stage-0'],
+          plugins: [
+            ['import', { 'libraryName': 'antd', 'libraryDirectory': 'es', 'style': 'css' }] // `style: true` 会加载 less 文件
+          ]
         }
       },
       {
@@ -75,8 +78,8 @@ module.exports = {
     }),
 
     new webpack.DefinePlugin({
-      "process.env": {
-        NODE_ENV: JSON.stringify("development")
+      'process.env': {
+        NODE_ENV: JSON.stringify('development')
       }
     }),
     new webpack.HotModuleReplacementPlugin()

@@ -6,6 +6,8 @@
     "start": "node ./webpack/starter.js"
   },
   "dependencies": {
+    "antd": "^3.4.3",
+    "babel-plugin-import": "^1.7.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.7",
