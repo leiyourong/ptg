@@ -1,38 +1,8 @@
-.grid-container {
-  min-width: 80%;
+.r-grid {
+  margin: 10 auto;
+  width: 90%;
 
-  & .actions {
-    margin: 10px 20px;
-  }
-
-  & .grid {
-    width: 90%;
-    margin: 0 auto;
-    border-collapse: collapse;
-
-    text-align: center;
-
-    & tr:nth-child(2n+1) td {
-      background: #f7f7f7;
-    }
-
-    & td, th {
-      border: 1px solid #ccc;
-
-      &.operation {
-        color: #17a0b5;
-
-        &:hover {
-          cursor: pointer;
-          color: red;
-        }
-      }
-    }
-  }
-
-  & .dialog-form {
-    & .form-actions {
-      width: 80%;
-    }
+  & .r-grid-btn {
+     margin: 10px 0;
   }
 }

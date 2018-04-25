@@ -48,6 +48,7 @@ module.exports = {
         query: {
           presets: ['react', 'es2015', 'stage-0'],
           plugins: [
+            'transform-decorators-legacy', 
             ['import', { 'libraryName': 'antd', 'libraryDirectory': 'es', 'style': 'css' }] // `style: true` 会加载 less 文件
           ]
         }
