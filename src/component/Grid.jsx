@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Table, Button } from 'antd'
-import '../style/grid'
+import './style/grid'
 
 export default class Grid extends Component {
   render () {

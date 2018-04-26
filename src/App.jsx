@@ -33,17 +33,17 @@ export default class App extends Component {
 
     this.buttons = [{
       name: '新增',
-      action: this.addItem.bind(this)
+      action: this.showDialog.bind(this)
     }]
 
     this.formItems = [{
       label: '名字',
       name: 'name',
-      required: true
+      required: '请输入名字'
     }, {
       label: '价格',
       name: 'price',
-      required: true
+      required: '请输入价格'
     }]
 
     this.state = {
@@ -53,8 +53,8 @@ export default class App extends Component {
     }
   }
 
-  handleSubmit () {
-    console.log(arguments)
+  handleSubmit (data) {
+    this.props.addItem(data)
     this.setState({
       modalVisible: false
     })
@@ -78,17 +78,17 @@ export default class App extends Component {
     this.props.deleteItem(id)
   }
 
-  addItem () {
+  showDialog () {
     this.setState({
       modalVisible: true
     })
-    // this.props.addItem({ name, price })
   }
 
-  // // 注意入参
-  // shouldComponentUpdate(nextProps, nextState) {
-  //    return this.props.items.length !== nextProps.items.length
-  // }
+  // 注意入参
+  shouldComponentUpdate(nextProps, nextState) {
+     return (this.props.items.length !== nextProps.items.length)
+     || this.state.modalVisible !== nextState.modalVisible
+  }
 
   render () {
     return (

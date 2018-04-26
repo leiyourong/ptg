@@ -1,8 +1,8 @@
 .r-grid {
-  margin: 10 auto;
+  margin: 20px auto;
   width: 90%;
 
-  & .r-grid-btn {
+  & > .r-grid-btn {
      margin: 10px 0;
   }
 }

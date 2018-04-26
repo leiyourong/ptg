@@ -15,6 +15,3 @@ module.exports = {
   getItem,
   addItem
 }
-// export const deleteItem = createAction(DELETE_ITEM, payload => deleteBooks(payload))
-// export const getItem = createAction(GET_ITEM, () => getBooks())
-// export const addItem = createAction(ADD_ITEM, payload => addBook(payload))

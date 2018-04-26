@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Form, Button, Input } from 'antd'
 import ModalForm from './ModalForm'
 const FormItem = Form.Item
@@ -9,29 +10,21 @@ class simpleForm extends Component {
     super(props)
   }
 
-  handleSubmit (e) {
-    e.preventDefault()
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        this.props.handleSubmit && this.props.handleSubmit(this.props.form.getFieldsValue())
-      }
-      console.log(err)
-    })
-  }
-
   render () {
     const { getFieldDecorator } = this.props.form
-    const button = !this.props.Btn && (
-      <FormItem>
+    const button = !this.props.disabledBtn && (
+      <FormItem className='form-action'>
         <Button type="primary" htmlType="submit">提交</Button>
       </FormItem>
     )
     return (
-      <Form onSubmit={ this.handleSubmit.bind(this) } className='r-form'>
+      <Form className='r-form'>
         {
           this.props.items && this.props.items.map((item, index) => (
             <FormItem key={ index } label={ item.label } required={ !!item.required }>
-              { getFieldDecorator( item.name )(
+              { getFieldDecorator( item.name, {
+                  rules: [{ required: !!item.required, message: item.required }],
+                })(
                 <Input placeholder={ item.placeholder || '' } />
               )}
             </FormItem>
@@ -44,4 +37,9 @@ class simpleForm extends Component {
 }
 
 const form = Form.create()(simpleForm)
+
+form.propTypes = {
+  items: PropTypes.array.isRequired
+}
+
 module.exports = form
