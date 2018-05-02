@@ -32,7 +32,10 @@ export default function ModalForm (WrappedComponent) {
             <Button key="back" onClick={ this.handleCancel.bind(this) }>取消</Button>,
             <Button key="submit" type="primary" onClick={ this.handleOk.bind(this) }>提交</Button>
           ]}>
-            <WrappedComponent { ...this.props } disabledBtn={ true } ></WrappedComponent>
+            <WrappedComponent { ...this.props }
+              disabledBtn={ true } >
+              inModal={ true }
+             </WrappedComponent>
         </Modal>
       )
     }
