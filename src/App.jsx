@@ -66,7 +66,24 @@ export default class App extends Component {
     })
   }
 
+  componentWillReceiveProps (nextProps) {
+    console.log('componentWillReceiveProps')
+    console.log(arguments)
+  }
+  componentWillUpdate () {
+    console.log('componentWillUpdate')
+    console.log(arguments)
+  }
+  componentDidUpdate () {
+    console.log('componentDidUpdate')
+    console.log(arguments)
+  }
+  componentWillMount () {
+    // 不建议做异步操作，且组件还未渲染，即将被废弃
+  }
+
   componentDidMount() {
+    // 做异步请求和组件操作refs等
     this.props.getItems()
   }
 
@@ -86,6 +103,8 @@ export default class App extends Component {
 
   // 注意入参
   shouldComponentUpdate(nextProps, nextState) {
+     console.log('shouldComponentUpdate')
+     console.log(arguments)
      return (this.props.items.length !== nextProps.items.length)
      || this.state.modalVisible !== nextState.modalVisible
   }
