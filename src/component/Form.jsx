@@ -24,6 +24,7 @@ class simpleForm extends Component {
             <FormItem key={ index } label={ item.label } required={ !!item.required }>
               { getFieldDecorator( item.name, {
                   rules: [{ required: !!item.required, message: item.required }],
+                  initialValue: this.props.data[item.name]
                 })(
                 <Input placeholder={ item.placeholder || '' } />
               )}

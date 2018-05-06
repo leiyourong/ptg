@@ -53,3 +53,20 @@ export const addBook = ({ name, price }) => {
     }, 100)
   })
 }
+
+export const editBook = ({ id, name, price }) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      let books = getItem('books') || []
+      let targetIndex = -1
+      books = books.map(book => {
+        if (book.id == id) {
+          Object.assign(book, { name, price })
+        }
+        return book
+      })
+      setItem('books', books)
+      resolve({ id, name, price })
+    }, 100)
+  })
+}

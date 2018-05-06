@@ -3,14 +3,13 @@ import { Modal, Button } from 'antd'
 
 export default function ModalForm (WrappedComponent) {
   return class RComponent extends Component {
-    constructor (props) {
-        super(props)
-    }
-
     handleOk () {
       this.props.form.validateFields((err, values) => {
         if (!err) {
-          this.props.handleSubmit && this.props.handleSubmit(this.props.form.getFieldsValue())
+          this.props.handleSubmit && this.props.handleSubmit({
+            method: this.props.data && this.props.data.id !== undefined ? 'edit' : 'add'  ,
+            ...this.props.form.getFieldsValue()
+          })
           this.props.form.resetFields()
         }
       })
@@ -23,7 +22,7 @@ export default function ModalForm (WrappedComponent) {
 
     render () {
       return (
-        <Modal
+        this.props.isModal ? (<Modal
           className='r-modal'
           visible={ this.props.visible }
           title={ this.props.title }
@@ -36,7 +35,12 @@ export default function ModalForm (WrappedComponent) {
               disabledBtn={ true } >
               inModal={ true }
              </WrappedComponent>
-        </Modal>
+        </Modal>) : (
+          <WrappedComponent { ...this.props }
+          disabledBtn={ false } >
+          inModal={ false }
+         </WrappedComponent>
+        )
       )
     }
   }

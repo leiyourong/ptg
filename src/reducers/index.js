@@ -17,6 +17,17 @@ const items = handleActions({
   },
   ADD_ITEM: (state, action) => {
     return Object.assign({}, state, { books: [ ...state.books, action.payload ] })
+  },
+  EDIT_ITEM: (state, action) => {
+    let books = state.books
+    const { id, name, price } = action.payload
+    books = books.map(book => {
+      if (book.id == id) {
+        Object.assign(book, { name, price })
+      }
+      return book
+    })
+    return Object.assign({}, state, { books })
   }
 }, initState)
 

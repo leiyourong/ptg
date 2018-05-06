@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import Grid from './component/Grid'
 import Form from './component/Form'
 import { Button, Modal } from 'antd'
-import { deleteItem } from './actions/index'
 const FormItem = Form.Item
 
 export default class App extends Component {
@@ -25,9 +24,14 @@ export default class App extends Component {
       title: '操作',
       key: 'action',
       render: (text, record) => (
-        <span>
-          <a href='javascript:;' onClick={ this.deleteItem.bind(this, text.id) }>删除</a>
-        </span>
+        <div>
+          <span style={{ display: 'inline-block', paddingRight: '10px' }}>
+            <a href='javascript:;' onClick={ this.deleteItem.bind(this, text.id) }>删除</a>
+          </span>
+          <span style={{ display: 'inline-block', paddingRight: '10px' }}>
+            <a href='javascript:;' onClick={ this.editItem.bind(this, text.id) }>编辑</a>
+          </span>
+        </div>
       ),
     }]
 
@@ -48,27 +52,35 @@ export default class App extends Component {
 
     this.state = {
       modalVisible: false,
-      name: '',
-      price: 0
+      data: {}
     }
   }
 
-  handleSubmit (data) {
-    this.props.addItem(data)
+  handleSubmit ({ method, ...data }) {
+    if (method === 'edit') {
+      this.props.editItem({
+        id: this.state.data.id,
+        ...data
+      })
+    } else {
+      this.props.addItem(data)
+    }
     this.setState({
-      modalVisible: false
+      modalVisible: false,
+      data: {}
     })
   }
 
   handleCancel () {
     this.setState({
-      modalVisible: false
+      modalVisible: false,
+      data: {}
     })
   }
 
   componentWillReceiveProps (nextProps) {
-    console.log('componentWillReceiveProps')
-    console.log(arguments)
+    // 一般用于父组件props改变，通知子组件修改
+    console.log(nextProps)
   }
   componentWillUpdate () {
     console.log('componentWillUpdate')
@@ -95,18 +107,23 @@ export default class App extends Component {
     this.props.deleteItem(id)
   }
 
-  showDialog () {
+  editItem (id) {
+    const data = this.props.items.find(item => +item.id === +id)
+    this.showDialog(data)
+  }
+
+  showDialog (data) {
     this.setState({
-      modalVisible: true
+      modalVisible: true,
+      data
     })
   }
 
   // 注意入参
   shouldComponentUpdate(nextProps, nextState) {
-     console.log('shouldComponentUpdate')
-     console.log(arguments)
-     return (this.props.items.length !== nextProps.items.length)
-     || this.state.modalVisible !== nextState.modalVisible
+     return true
+     // return (this.props.items.length !== nextProps.items.length)
+     // || this.state.modalVisible !== nextState.modalVisible
   }
 
   render () {
@@ -114,10 +131,12 @@ export default class App extends Component {
       <div>
         <Grid buttons={ this.buttons } columns={ this.columns } items={ this.props.items } ></Grid>
         <Form
+          isModal={ true }
           visible={ this.state.modalVisible }
+          data={ this.state.data }
           title='新增书本'
-          handleCancel={this.handleCancel.bind(this)}
-          handleSubmit={this.handleSubmit.bind(this)}
+          handleCancel={ this.handleCancel.bind(this) }
+          handleSubmit={ this.handleSubmit.bind(this) }
           items={ this.formItems }>
          </Form>
       </div>
