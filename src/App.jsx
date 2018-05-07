@@ -80,15 +80,12 @@ export default class App extends Component {
 
   componentWillReceiveProps (nextProps) {
     // 一般用于父组件props改变，通知子组件修改
-    console.log(nextProps)
   }
-  componentWillUpdate () {
-    console.log('componentWillUpdate')
-    console.log(arguments)
+  componentWillUpdate (nextProps, nextState) {
+    // 组件更新前渲染，不能用setState
   }
-  componentDidUpdate () {
-    console.log('componentDidUpdate')
-    console.log(arguments)
+  componentDidUpdate (prevProps, prevState) {
+    // 组件更新前渲染后
   }
   componentWillMount () {
     // 不建议做异步操作，且组件还未渲染，即将被废弃
