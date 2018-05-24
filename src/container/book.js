@@ -1,4 +1,4 @@
-import App from '../App.jsx'
+import Book from '../views/book.jsx'
 import { connect } from 'react-redux'
 import { deleteItem, getItem, addItem, editItem } from '../actions/index'
 
@@ -17,4 +17,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default connect(mapStateToProps, mapDispatchToProps)(Book)

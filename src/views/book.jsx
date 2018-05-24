@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import Grid from './component/Grid'
-import Form from './component/Form'
+import Grid from '../component/Grid'
+import Form from '../component/Form'
 import { Button, Modal } from 'antd'
 const FormItem = Form.Item
 
-export default class App extends Component {
+export default class book extends Component {
   constructor (props) {
     super(props)
     this.columns = [{
