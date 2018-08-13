@@ -4,7 +4,7 @@ import { HashRouter as Router, Route, Redirect, Switch, Link } from 'react-route
 import Book from '../container/book'
 import Home from '../views/home'
 const divvv = <div id='div1'>
-  <div xxx='123' id='div2'>我是一个divdiv</div>
+  <div xxx='123' id='div2'>我是一个divdivdiv</div>
   <div id='div3'>null</div>
 </div>
 console.log(divvv)
