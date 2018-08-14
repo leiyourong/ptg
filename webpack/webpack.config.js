@@ -6,7 +6,8 @@ module.exports = {
   context: path.resolve(__dirname, '../src'),
   mode: 'development',
   entry: {
-    bundle: ['./index.js', 'webpack/hot/dev-server', 'webpack-hot-middleware/client?reload=true'], //mix
+    // bundle: ['./index.js', 'webpack/hot/dev-server', 'webpack-hot-middleware/client?reload=true'], //mix
+    bundle: ['./minireact/index.js', 'webpack/hot/dev-server', 'webpack-hot-middleware/client?reload=true'], //mix
   },
   output: {
     path: path.resolve(__dirname, './dist'),
