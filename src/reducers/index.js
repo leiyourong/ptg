@@ -12,11 +12,11 @@ const items = handleActions({
     return Object.assign({}, state, { books })
   },
   GET_ITEM: (state, action) => {
-    let books = action.payload.items
+    let books = action.data.items
     return Object.assign({}, state, { books })
   },
   ADD_ITEM: (state, action) => {
-    return Object.assign({}, state, { books: [ ...state.books, action.payload ] })
+    return Object.assign({}, state, { books: [ ...state.books, { ...action.data } ] })
   },
   EDIT_ITEM: (state, action) => {
     let books = state.books

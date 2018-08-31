@@ -92,6 +92,7 @@ export default class book extends Component {
   }
 
   componentDidMount() {
+    console.log(this.props)
     // 做异步请求和组件操作refs等
     this.props.getItems()
   }
