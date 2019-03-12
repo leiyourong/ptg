@@ -72,11 +72,11 @@ async function catcher(url, dist, num) {
         name: 'view',
         message: 'need to view how it catches ?',
         choices: [{
-            name: 'false',
-            value: false
-        }, {
             name: 'true',
             value: true
+        }, {
+            name: 'false',
+            value: false
         }]
     }]).then(data => {
         if (data.view) {

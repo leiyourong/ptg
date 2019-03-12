@@ -1,9 +1,11 @@
 const puppeteer = require('puppeteer');
+const chalk = require('chalk');
 let currentPage = {};
 let renderedPageUrls = [];
+let browser
 
 module.exports = async (url, dist, num) => {
-    const browser = await puppeteer.launch({headless: false});
+    browser = await puppeteer.launch({headless: false});
     currentPage = await browser.newPage()
     getPage(url, dist, num)
 }
@@ -14,17 +16,15 @@ async function getPage(url, dist, num) {
     }
     renderedPageUrls.push(url);
     await currentPage.goto(url);
-    await currentPage.screenshot({path: `${dist}/${getShortUrlName(url)}`});
+    await currentPage.screenshot({path: `${dist}/${getShortUrlName(url)}.jpg`});
+    console.log(chalk.green('take a screenshot url of ' + url));
     await currentPage.evaluate(() => {
-        catchImage(document, dist, num);
+        const links = document.querySelectorAll('a[href]');
+        console.log(links.length);
     })
     await browser.close();
 }
 
 function getShortUrlName(url) {
     return url.replace(/http(s)?\:\/\//, '');
-}
-
-function catchImage(document, dist, num) {
-    document.querySelectorAll('a[href]');
 }
