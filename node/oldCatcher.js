@@ -61,7 +61,7 @@ function getImg(url) {
                     console.log(err)
                     return false
                 }
-                console.log(chalk.green(`${num}'-download success ${fileName}`))
+                console.log(chalk.green(`${num}-download success ${fileName}`))
                 num++
             })
         })
@@ -95,6 +95,7 @@ function callback(html, url) {
     getHtml(nextUrl)
   } else {
     console.log(chalk.blue('Finished!'))
+    process.exit(0)
   }
 }
 

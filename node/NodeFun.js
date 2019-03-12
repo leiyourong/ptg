@@ -28,7 +28,8 @@ if (url && dist && num) {
         type: 'input',
         name: 'url',
         message: chalk.blue('input target url?'),
-        prefix: 'lalala: '
+        prefix: 'lalala: ',
+        default: 'https://www.qq.com'
     }, {
         type: 'input',
         name: 'dist',

@@ -5,6 +5,7 @@ const fs = require('fs');
 const defaultProt = 'https://';
 const protReg = /http(s)?\:\/\//;
 const oldCatcher = require('./oldCatcher')
+const puppeteerCatcher = require('./puppeteerCatcher')
 
 module.exports = async ({url, dist, num = 100}) => {
     if (!url) {
@@ -79,11 +80,10 @@ async function catcher(url, dist, num) {
         }]
     }]).then(data => {
         if (data.view) {
-            oldCatcher(url, dist, num)
+            puppeteerCatcher(url, dist, num);
         } else {
-            // puppeteerCatcher(url, dist, num)
+            oldCatcher(url, dist, num);
         }
-        resolve();
     });
     
 }
