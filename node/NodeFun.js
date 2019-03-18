@@ -2,7 +2,7 @@ const program = require('commander');
 const inquirer = require('inquirer');
 const chalk = require('chalk');
 const catcher = require('./catcher')
-console.log(catcher)
+
 program
     .version('0.0.1', '-v, --version')
     .usage('---> Just For Fun')

@@ -44,11 +44,7 @@ async function checkDirectory(dist) {
                         if (data.clean) {
                             files.forEach(file => {
                                 const fullPath = dist + (file.indexOf('/') !== -1 ? file : '/' + file);
-                                fs.unlink(fullPath, err => {
-                                    if (!err) {
-                                        console.log(chalk.green(`file ${fullPath} has been deleted!`));
-                                    }
-                                })
+                                fs.unlinkSync(fullPath)
                             });
                         }
                         resolve();
