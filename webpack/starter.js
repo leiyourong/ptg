@@ -8,6 +8,7 @@ const config = require('./webpack.config')
 const compiler = webpack(config)
 
 app.use(express.static('webwork'))
+app.use(express.static('public'))
 app.use(webpackDevMiddleware(compiler, {
     publicPath: config.output.publicPath,
     stats: {colors: true}
