@@ -3,7 +3,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <script>
-      if ('serviceWorker' in navigator) {
+      if ('serviceWorker' in navigator && location.search.includes('serviceWorker')) {
         navigator.serviceWorker.register('./serviceWorker.js', {scope: '/'})
         .then(function(registration) {
           console.log('你的ServiceWorker作用于：' + registration.scope);

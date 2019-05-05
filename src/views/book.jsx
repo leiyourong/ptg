@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import Grid from '../component/Grid'
 import Form from '../component/Form'
 import { Button, Modal } from 'antd'
+import { Prompt } from 'react-router-dom'
 const FormItem = Form.Item
-
+import { Route, Link } from 'react-router-dom'
 export default class book extends Component {
   constructor (props) {
     super(props)
@@ -131,11 +132,14 @@ export default class book extends Component {
           isModal={ true }
           visible={ this.state.modalVisible }
           data={ this.state.data }
-          title='新增书本'
+          title='新增书本'  
           handleCancel={ this.handleCancel.bind(this) }
           handleSubmit={ this.handleSubmit.bind(this) }
           items={ this.formItems }>
          </Form>
+         <Prompt message='哈哈，5%的几率出现' when={Math.random() > 0.95} />
+         <Route path='/book/sub' render={() => { return (<div>ReactRouter4-subRoute</div>) }} />
+         <Link to='/book/sub'><div className='menuItem'>subRouter</div></Link>
       </div>
     )
   }
