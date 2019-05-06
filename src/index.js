@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { render } from 'react-dom'
 import Router from './router/index'
 import { Provider } from 'react-redux'
@@ -9,9 +9,9 @@ const divvv = (<div id='div1'>
 </div>)
 console.log(divvv)
 console.log(Demo)
-console.log(<Demo/>)
+console.log(<Demo />)
 render(<Provider store={store}>
-      <Router />
-   </Provider>,
- document.getElementById('react')
+  <Router />
+</Provider>,
+document.getElementById('react')
 )

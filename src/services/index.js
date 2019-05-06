@@ -22,8 +22,7 @@ export const deleteBooks = id => {
         }
       })
       if (targetIndex === -1) {
-        reject('id不存在')
-        return
+        return reject(new Error('id不存在'))
       }
       const spliceBook = books.splice(targetIndex, 1)
       setItem('books', books)

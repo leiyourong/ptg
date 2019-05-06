@@ -1,15 +1,15 @@
 const reactRender = {
-  render: function (component, container) {
-    if (typeof component.type === 'number' || typeof component.type === 'string') {
-      if (component.type === 'div') {
+  render: function (Cmp, container) {
+    if (typeof Cmp.type === 'number' || typeof Cmp.type === 'string') {
+      if (Cmp.type === 'div') {
         const divEle = document.createElement('div')
         container.innerHTML = divEle.outerHTML
-        return reactRender.render(component.props, divEle)
+        return reactRender.render(Cmp.props, divEle)
       }
-
-      return container.innerHTML = component.type
+      container.innerHTML = Cmp.type
+      return container.innerHTML
     }
-    const comp = new component.type()
+    const comp = new Cmp.type()
     return reactRender.render(comp.render(), container)
   }
 }
