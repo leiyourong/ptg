@@ -4,9 +4,9 @@ import Router from './router/index'
 import { Provider } from 'react-redux'
 import store from './store/index'
 import Demo from './views/home'
-const divvv = <div id='div1'>
+const divvv = (<div id='div1'>
   <div xxx='123' id='div2'>我是一个divdivdiv</div>
-</div>
+</div>)
 console.log(divvv)
 console.log(Demo)
 console.log(<Demo/>)

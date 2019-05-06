@@ -4,7 +4,10 @@
   "private": true,
   "scripts": {
     "start": "node ./webpack/starter.js",
-    "catcher": "node ./node/nodeFun.js"
+    "catcher": "node ./node/nodeFun.js",
+    "server": "nodemon ./server/index.js",
+    "eslint": "./node_modules/.bin/eslint src/",
+    "eslint:server": "./node_modules/.bin/eslint server/"
   },
   "dependencies": {
     "antd": "^3.4.3",
@@ -31,12 +34,20 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "css-loader": "^0.28.11",
+    "eslint": "^5.16.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.17.2",
+    "eslint-plugin-node": "^9.0.1",
+    "eslint-plugin-promise": "^4.1.1",
+    "eslint-plugin-react": "^7.13.0",
+    "eslint-plugin-standard": "^4.0.0",
     "express": "^4.16.3",
     "express-static": "^1.2.6",
     "file-loader": "^1.1.11",
     "html-webpack-plugin": "^3.2.0",
     "json-loader": "^0.5.7",
     "jsx-loader": "^0.13.2",
+    "nodemon": "^1.19.0",
     "postcss-cssnext": "^3.1.0",
     "postcss-import": "^11.1.0",
     "postcss-loader": "^2.1.4",

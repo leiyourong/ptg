@@ -22,7 +22,7 @@ const items = handleActions({
     let books = state.books
     const { id, name, price } = action.payload
     books = books.map(book => {
-      if (book.id == id) {
+      if (book.id === id) {
         Object.assign(book, { name, price })
       }
       return book
