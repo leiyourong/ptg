@@ -64,10 +64,17 @@ module.exports = {
       }
     ]
   },
+  optimization: {
+    runtimeChunk: true,
+    splitChunks:{
+      chunks: 'async',
+    }
+  },
   resolve: {
     extensions: ['*', '.js', '.css', '.jsx'],
     alias: {
-      'vue$'  : 'vue/dist/vue.min'
+      'vue$'  : 'vue/dist/vue.min',
+      '~': path.resolve(__dirname, './src')
     }
   },
   plugins: [

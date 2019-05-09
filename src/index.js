@@ -10,8 +10,9 @@ const divvv = (<div id='div1'>
 console.log(divvv)
 console.log(Demo)
 console.log(<Demo />)
-render(<Provider store={store}>
-  <Router />
-</Provider>,
-document.getElementById('react')
+render(
+  <Provider store={store}>
+    <Router />
+  </Provider>,
+  document.getElementById('react')
 )

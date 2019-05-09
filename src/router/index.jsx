@@ -3,6 +3,7 @@ import { Menu, Button, Affix } from 'antd'
 import { HashRouter as Router, Route, Redirect, Switch, Link, Prompt, NavLink } from 'react-router-dom'
 import Book from '../container/book'
 import Home from '../views/home'
+import Worker from '../views/worker'
 import Demo from '../views/react16/demo'
 import '../styles/router'
 
@@ -13,12 +14,12 @@ export default class router extends Component {
         <div>
           <div className='menuContainer'>
             <Menu
-               defaultSelectedKeys={['1']}
+               defaultSelectedKeys={['0']}
                className='menu'
                mode='horizontal'
              >
              <Menu.Item key='1'>
-               <Link to='/'><div className='menuItem'>主页</div></Link>
+               <Link to='/worker'><div className='menuItem'>Worker</div></Link>
              </Menu.Item>
              <Menu.Item key='2'>
                <Link to='/book'><div className='menuItem'>图书管理</div></Link>
@@ -31,6 +32,7 @@ export default class router extends Component {
           <div className='routerContainer'>
             <Switch className='content'>
               <Route exact path='/' component={Home} />
+              <Route path='/worker' component={Worker} />
               <Route path='/book' component={Book} />
               <Route path='/demo' component={Demo} />
             </Switch>
