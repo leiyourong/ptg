@@ -1,5 +1,5 @@
 import React from 'react'
-import { render } from 'react-dom'
+import { hydrate } from 'react-dom'
 import Router from './router/index'
 import { Provider } from 'react-redux'
 import store from './store/index'
@@ -10,7 +10,7 @@ const divvv = (<div id='div1'>
 console.log(divvv)
 console.log(Demo)
 console.log(<Demo />)
-render(
+hydrate(
   <Provider store={store}>
     <Router />
   </Provider>,

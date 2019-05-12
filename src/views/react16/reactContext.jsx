@@ -34,9 +34,7 @@ export default class ReactContext extends Component {
                 <Child num={this.state.result} />
             </Provider>
             <div>Consumer out of Provider：<SubChild /></div>
-            <Suspense fallback={<div>loading...</div>}>
-                <Memo memoState={this.state.memoState} />
-            </Suspense>
+            <Memo memoState={this.state.memoState} />
         </Fragment>
     }
 }

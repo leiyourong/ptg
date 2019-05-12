@@ -1,15 +1,23 @@
+// 处理css
+import 'css-modules-require-hook/preset';
+// 处理图片
+import 'asset-require-hook';
 import React from 'react';
-import Router from './routerConfig'
+import Router from '../src/router/index';
 import { Provider } from 'react-redux'
 import {renderToString} from 'react-dom/server'
 import express from 'express';
 import store from '../src/store/index'
+
+// 引入css 和 js
+// import buildPath from '../dist/asset-manifest.json';
+
 const router = express.Router();
 
 router.get('/', (req, res) => {
     const content = renderToString(
         <Provider store={store}>
-            <Router />
+            <Router req={req} />
         </Provider>
     )
     res.writeHead(200, {
@@ -19,6 +27,7 @@ router.get('/', (req, res) => {
         <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
         <script>
             if ('serviceWorker' in navigator && location.search.includes('serviceWorker')) {
                 navigator.serviceWorker.register('./serviceWorker.js', {scope: '/'})
@@ -35,7 +44,6 @@ router.get('/', (req, res) => {
         </body>
     </html>`);
     res.end();
-    // res.send(renderToString(<Homepage />));
 })
 
 router.get('/books', (req, res) => {
@@ -43,4 +51,4 @@ router.get('/books', (req, res) => {
     res.status(200).send(books);
 })
 
-export default router;
+module.exports = router;
