@@ -5,8 +5,14 @@ import thunk from 'redux-thunk'
 import reducers from '../reducers/index'
 
 const middlewares = [createLogger(), thunk, promiseMiddleware]
-// compose
-const store = createStore(reducers,
-  applyMiddleware(...middlewares)
-)
-export default store
+
+export const getStore = () => {
+  return createStore(reducers,
+    applyMiddleware(...middlewares)
+  );
+}
+
+export const getClientStore = () => {
+  const defaultState = window.context.state
+  return createStore(reducer, defaultState, applyMiddleware(...middlewares))
+}
