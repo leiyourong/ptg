@@ -6,7 +6,23 @@ import Home from '../views/home'
 import Worker from '../views/worker'
 // import Demo from '../views/react16/demo'
 
+// export const routerConfig = [{
+//   path: '/',
+//   key: '/',
+//   exact: true,
+//   component: Home,
+// }, {
+//   path: '/worker',
+//   key: '/worker',
+//   component: Worker,
+// }, {
+//   path: '/book',
+//   key: '/book',
+//   component: Book,
+// }]
+
 export default () => {
+  debugger
   return (
     <div>
       <div className='menuContainer'>

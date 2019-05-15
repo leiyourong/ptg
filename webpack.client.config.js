@@ -4,15 +4,38 @@ var HtmlwebpackPlugin = require('html-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin'); 
 var ManifestPlugin = require('webpack-manifest-plugin');
 
+var env = process.env.NODE_ENV || 'production';
+var plugins = [
+  new webpack.HotModuleReplacementPlugin(),
+  new ExtractTextPlugin({
+    filename: 'css/style.css',
+  }),
+  // Generate a manifest file which contains a mapping of all asset filenames
+  // to their corresponding output file so that tools can pick it up without
+  // having to parse `index.html`.
+  new ManifestPlugin({
+    fileName: 'asset-manifest.json',
+  }),
+]
+console.log(env);
+if (env === 'development') {
+  plugins.push(new HtmlwebpackPlugin({
+    title: 'Noobme',
+    template: path.resolve('./tmpl/index.tmpl'), // mix react
+    hash: true,
+    inject: true,
+    filename: 'index.html'
+  }))
+}
 module.exports = {
-  context: path.resolve(__dirname, '../src'),
+  context: path.resolve(__dirname, './src'),
   mode: 'development',
   entry: {
     bundle: ['./index.js', 'webpack/hot/dev-server', 'webpack-hot-middleware/client?reload=true'],
     // bundle: ['./minireact/index.js', 'webpack/hot/dev-server', 'webpack-hot-middleware/client?reload=true'], //mix
   },
   output: {
-    path: path.resolve(__dirname, '../dist'),
+    path: path.resolve(__dirname, './dist'),
     filename: '[name].js',
     // publicPath: '/',     //webpack-dev-server访问的路径
     // chunkFilename: 'bundle-[id].js'   //输出chunk文件名
@@ -83,31 +106,7 @@ module.exports = {
       '~': path.resolve(__dirname, './src')
     }
   },
-  plugins: [
-    // new HtmlwebpackPlugin({
-    //   title: 'Noobme',
-    //   template: path.resolve('./tmpl/index.tmpl'), // mix react
-    //   hash: true,
-    //   inject: true,
-    //   filename: 'index.html'
-    // }),
-
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify('development')
-      }
-    }),
-    new webpack.HotModuleReplacementPlugin(),
-    new ExtractTextPlugin({
-      filename: 'css/style.css',
-    }),
-    // Generate a manifest file which contains a mapping of all asset filenames
-    // to their corresponding output file so that tools can pick it up without
-    // having to parse `index.html`.
-    new ManifestPlugin({
-      fileName: 'asset-manifest.json',
-    }),
-  ],
+  plugins: plugins,
   devtool: 'source-map', //错误报在原js上
   devServer: {
     historyApiFallback: true,
