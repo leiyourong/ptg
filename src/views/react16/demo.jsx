@@ -19,7 +19,8 @@ export default class Demo extends Component {
   }
 
   render() {
-    const LazyComponent = lazy(() => import('./lazy'))
+    // ssr 好像还不识别
+    // const LazyComponent = lazy(() => import('./lazy'))
     return (
       [
         <ErrorCatcher key='ErrorCatcher'>
@@ -33,7 +34,7 @@ export default class Demo extends Component {
         </Protal>,
         <ReactContext ref={this.contextRef} key='context' xxx='xxx' />,
         <Suspense key='lazy' fallback={<div>loading...</div>}>
-            <LazyComponent />
+            {/* <LazyComponent /> */}
         </Suspense>
       ]
     )

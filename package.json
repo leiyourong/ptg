@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./src/server/starter.js --exec babel-node",
-    "build:client": "webpack --config webpack.client.config.js",
-    "start:client": "cross-env NODE_ENV=development node ./src/client/starter.js",
+    "build:client": "webpack --config webpack.client.config.js --watch",
+    "dev": "cross-env NODE_ENV=development node ./src/client/starter.js",
     "catcher": "nodemon ./node/nodeFun.js",
     "eslint": "./node_modules/.bin/eslint src/",
     "eslint:server": "./node_modules/.bin/eslint server/"
@@ -62,6 +62,7 @@
     "postcss-nested": "^3.0.0",
     "postcss-simple-vars": "^4.1.0",
     "postcss-url": "^7.3.2",
+    "react-helmet": "^5.2.1",
     "react-router-config": "^5.0.0",
     "redux-logger": "^3.0.6",
     "redux-promise": "^0.5.3",

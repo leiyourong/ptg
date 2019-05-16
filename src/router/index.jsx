@@ -4,25 +4,28 @@ import { Route, Switch, Link } from 'react-router-dom'
 import Book from '../container/book'
 import Home from '../views/home'
 import Worker from '../views/worker'
-// import Demo from '../views/react16/demo'
+import Demo from '../views/react16/demo'
 
-// export const routerConfig = [{
-//   path: '/',
-//   key: '/',
-//   exact: true,
-//   component: Home,
-// }, {
-//   path: '/worker',
-//   key: '/worker',
-//   component: Worker,
-// }, {
-//   path: '/book',
-//   key: '/book',
-//   component: Book,
-// }]
+export const routerConfig = [{
+  path: '/',
+  key: '/',
+  exact: true,
+  component: Home,
+}, {
+  path: '/worker',
+  key: '/worker',
+  component: Worker,
+}, {
+  path: '/book',
+  key: '/book',
+  component: Book,
+}, {
+  path: '/demo',
+  key: '/demo',
+  component: Demo,
+}]
 
 export default () => {
-  debugger
   return (
     <div>
       <div className='menuContainer'>
@@ -37,9 +40,9 @@ export default () => {
          <Menu.Item key='2'>
            <Link to='/book'><div className='menuItem'>图书管理</div></Link>
          </Menu.Item>
-         {/* <Menu.Item key='3'>
+         <Menu.Item key='3'>
            <Link to='/demo'><div className='menuItem'>React16 Demo</div></Link>
-         </Menu.Item> */}
+         </Menu.Item>
         </Menu>
       </div>
       <div className='routerContainer'>
@@ -47,7 +50,7 @@ export default () => {
           <Route exact path='/' component={Home} />
           <Route path='/worker' component={Worker} />
           <Route path='/book' component={Book} />
-          {/* <Route path='/demo' component={Demo} /> */}
+          <Route path='/demo' component={Demo} />
         </Switch>
       </div>
     </div>

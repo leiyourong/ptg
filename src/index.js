@@ -1,5 +1,5 @@
 import React from 'react'
-import { render } from 'react-dom'
+import { hydrate } from 'react-dom'
 import { BrowserRouter as Router } from 'react-router-dom'
 import App from './router/index'
 import { Provider } from 'react-redux'
@@ -11,11 +11,13 @@ import {getClientStore} from './store/index'
 // console.log(divvv)
 // console.log(Demo)
 // console.log(<Demo />)
-render(
-  <Provider store={getClientStore()}>
-    <Router>
-      <App />
-    </Router>
-  </Provider>,
-  document.getElementById('react')
-)
+setTimeout(() => {
+  hydrate(
+    <Provider store={getClientStore()}>
+      <Router>
+        <App />
+      </Router>
+    </Provider>,
+    document.getElementById('react')
+  )  
+}, 5000)

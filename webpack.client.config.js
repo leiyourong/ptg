@@ -31,13 +31,13 @@ module.exports = {
   context: path.resolve(__dirname, './src'),
   mode: 'development',
   entry: {
-    bundle: ['./index.js', 'webpack/hot/dev-server', 'webpack-hot-middleware/client?reload=true'],
+    index: ['./index.js', 'webpack/hot/dev-server', 'webpack-hot-middleware/client?reload=true'],
     // bundle: ['./minireact/index.js', 'webpack/hot/dev-server', 'webpack-hot-middleware/client?reload=true'], //mix
   },
   output: {
     path: path.resolve(__dirname, './dist'),
     filename: '[name].js',
-    // publicPath: '/',     //webpack-dev-server访问的路径
+    publicPath: '/dist',     //webpack-dev-server访问的路径
     // chunkFilename: 'bundle-[id].js'   //输出chunk文件名
   },
   node: {
@@ -109,7 +109,13 @@ module.exports = {
   plugins: plugins,
   devtool: 'source-map', //错误报在原js上
   devServer: {
-    historyApiFallback: true,
+    // historyApiFallback: {
+    //   rewrites: [
+    //     { from: /^\/$/, to: '/dist/index.html' },
+    //     { from: /./, to: '/dist/index.html' }
+    //   ]
+    // },
+    index: 'index.html',
     hot: true,
     inline: true,
     progress: true,
