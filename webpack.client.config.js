@@ -37,7 +37,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, './dist'),
     filename: '[name].js',
-    publicPath: '/dist',     //webpack-dev-server访问的路径
+    publicPath: '/',     //webpack-dev-server访问的路径
     // chunkFilename: 'bundle-[id].js'   //输出chunk文件名
   },
   node: {
@@ -109,13 +109,9 @@ module.exports = {
   plugins: plugins,
   devtool: 'source-map', //错误报在原js上
   devServer: {
-    // historyApiFallback: {
-    //   rewrites: [
-    //     { from: /^\/$/, to: '/dist/index.html' },
-    //     { from: /./, to: '/dist/index.html' }
-    //   ]
-    // },
-    index: 'index.html',
+    historyApiFallback: {
+      index: '/index.html',
+    },
     hot: true,
     inline: true,
     progress: true,
