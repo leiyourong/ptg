@@ -1,0 +1,11 @@
+<html>
+    <body>
+        <shadow-text></shadow-text>
+    </body>
+    <script>
+        var host = document.querySelector('shadow-text');
+        var shadow = host.createShadowRoot();
+        shadow.innerHTML = "<div class='red'>Guess where i'm from ?</div>";
+        shadow.innerHTML += "<style>.red { color: red; }</style>";
+    </script>
+</html>

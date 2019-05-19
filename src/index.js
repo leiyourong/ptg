@@ -11,13 +11,11 @@ import {getClientStore} from './store/index'
 // console.log(divvv)
 // console.log(Demo)
 // console.log(<Demo />)
-setTimeout(() => {
-  hydrate(
-    <Provider store={getClientStore()}>
-      <Router>
-        <App />
-      </Router>
-    </Provider>,
-    document.getElementById('react')
-  )  
-}, 5000)
+hydrate(
+  <Provider store={getClientStore()}>
+    <Router>
+      <App />
+    </Router>
+  </Provider>,
+  document.getElementById('react')
+)  

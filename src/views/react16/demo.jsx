@@ -21,6 +21,7 @@ export default class Demo extends Component {
   render() {
     // ssr 好像还不识别
     // const LazyComponent = lazy(() => import('./lazy'))
+    
     return (
       [
         <ErrorCatcher key='ErrorCatcher'>

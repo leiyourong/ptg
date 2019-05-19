@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Route, Link} from 'react-router-dom';
-import './xxx.css';
+import styled from 'styled-components';
 
 export default class home extends Component {
   state = {
@@ -17,10 +17,14 @@ export default class home extends Component {
   }
 
   render() {
-    return <div className="homepage">
+    const HomePage = styled.div`
+      font: 30px;
+      color: red;
+    `;
+    return <HomePage>
       HomePage
       <Route path='/book/sub' render={() => { return (<div>ReactRouter4-subRoute</div>) }} />
       <Link to='/book/sub'><div className='menuItem'>subRouter</div></Link>
-    </div>
+    </HomePage>
   }
 }
