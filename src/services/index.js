@@ -15,12 +15,7 @@ export const deleteBooks = id => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       let books = getItem('books') || []
-      let targetIndex = -1
-      books.forEach((book, index) => {
-        if (book.id === id) {
-          targetIndex = index
-        }
-      })
+      const targetIndex = books.findIndex(book => book.id === id)
       if (targetIndex === -1) {
         return reject(new Error('id不存在'))
       }

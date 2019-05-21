@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
 import Grid from '../component/Grid'
 import Form from '../component/Form'
-import { Button, Modal } from 'antd'
-import { Prompt } from 'react-router-dom'
-const FormItem = Form.Item
-import { Route, Link } from 'react-router-dom'
+import { Prompt, Route, Link } from 'react-router-dom'
+
 export default class book extends Component {
   constructor (props) {
     super(props)

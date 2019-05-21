@@ -8,10 +8,14 @@ describe('it should be exported correctly', () => {
 })
 
 describe('should has correctly display', () => {
+    const key = 'testKey';
     test('setItem & getItem function test', () => {
-        const key = 'testKey', value = 'testValue';
+        const value = 'testValue';
         const {getItem, setItem} = storage;
         setItem(key, value)
         expect(getItem(key)).toBe(value);
     })
-})
+    afterAll(() => {
+        localStorage.removeItem(key);
+    })
+});
