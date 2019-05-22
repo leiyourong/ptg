@@ -5,16 +5,15 @@ export default class worker extends Component {
   constructor (props, context) {
     super(props, context)
     this.state = {
-      result: 0
+      result: props.result || 0
     }
   }
 
   noWebWork = () => {
     var t = Date.now()
     var result = []
-    console.log(`startFetch: ${Date.now() - t}`)
     fetch('http://localhost:1215').then(data => {
-      console.log(`insideFetch: ${Date.now() - t}`)
+      return `insideFetch: ${Date.now() - t}`
     })
     // 耗时操作-start 寻找1000000个随机数中的中位数
     for (let index = 0; index < 1000000; index++) {
@@ -30,10 +29,8 @@ export default class worker extends Component {
 
   onlyAjax = () => {
     var t = Date.now()
-    var result = []
-    console.log(`startFetch: ${Date.now() - t}`)
     fetch('http://localhost:1215').then(data => {
-      console.log(`insideFetch: ${Date.now() - t}`)
+      return `insideFetch: ${Date.now() - t}`
     })
     // 耗时操作-结束
     this.setState({
@@ -48,10 +45,8 @@ export default class worker extends Component {
     var t = Date.now()
     var self = this
     var work = new Worker('worker.js')
-    console.log(`afterFor: ${Date.now() - t}`)
-    console.log(`startFetch: ${Date.now() - t}`)
     fetch('http://localhost:1215').then(data => {
-      console.log(`insideFetch: ${Date.now() - t}`)
+      return `insideFetch: ${Date.now() - t}`
     })
     work.onmessage = e => {
       console.log(`insideMsg: ${Date.now() - t}`)
@@ -65,7 +60,7 @@ export default class worker extends Component {
  
   render () {
     return <div>
-      <div style={{width: '240px', textAlign: 'center'}}>{this.state.result}</div>
+      <div className='result' style={{width: '240px', textAlign: 'center'}}>{this.state.result}</div>
       <Button style={{margin: '10px'}} type='primary' onClick={this.noWebWork}>NoWebWork</Button>
       <Button style={{margin: '10px'}} type='primary' onClick={this.withWebWork}>WithWebWork</Button>
       <Button type='primary' onClick={this.onlyAjax}>onlyAjax</Button>
