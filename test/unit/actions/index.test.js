@@ -1,11 +1,12 @@
-import {
+import action from '../../../src/actions/index';
+import {getItem as getLocalstorage} from '../../../src/utils/storage';
+
+const {
     deleteItem,
     getItem,
     addItem,
     editItem,
-} from '../../../src/actions/index';
-import {getItem as getLocalstorage} from '../../../src/utils/storage';
-
+} = action;
 
 it('deleteItem & getItem & addItem & editItem should be a function', () => {
     expect(deleteItem).toBeInstanceOf(Function);
