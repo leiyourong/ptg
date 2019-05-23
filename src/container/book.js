@@ -1,6 +1,7 @@
 import Book from '../views/book.jsx'
 import { connect } from 'react-redux'
-import { deleteItem, getItem, addItem, editItem } from '../actions/index'
+import action from '../actions/index'
+const { deleteItem, getItem, addItem, editItem } = action;
 
 const mapStateToProps = state => {
   return {
@@ -11,7 +12,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     deleteItem: payload => dispatch(deleteItem(payload)),
-    getItems: payload => dispatch(getItem(payload)),
+    getItems: () => dispatch(getItem()),
     addItem: payload => dispatch(addItem(payload)),
     editItem: payload => dispatch(editItem(payload))
   }

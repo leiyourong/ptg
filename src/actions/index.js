@@ -12,7 +12,7 @@ const { deleteItem, getItem, addItem, editItem } = createActions({
   EDIT_ITEM: payload => editBook(payload)
 })
 
-module.exports = {
+export default {
   deleteItem,
   getItem,
   addItem,

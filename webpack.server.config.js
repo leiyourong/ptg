@@ -41,14 +41,7 @@ module.exports = {
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
-        query: {
-          presets: ['es2015', 'react', 'stage-0'],
-          plugins: [
-            'transform-decorators-legacy',
-            ['import', { 'libraryName': 'antd', 'libraryDirectory': 'es', 'style': 'css' }] // `style: true` 会加载 less 文件
-          ]
-        }
+        loader: 'babel-loader'
       },
       {
         test: /\.json$/,

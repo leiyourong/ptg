@@ -43,4 +43,4 @@ form.propTypes = {
   items: PropTypes.array.isRequired
 }
 
-module.exports = form
+export default form
