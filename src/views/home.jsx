@@ -21,10 +21,13 @@ export default class home extends Component {
       font: 30px;
       color: red;
     `;
+    const HomePageLogin = styled.div`
+
+    `;
     return <HomePage>
-      HomePage
+      <div className='HomePageLogo'>HomePage</div>
       <Route path='/book/sub' render={() => { return (<div>ReactRouter4-subRoute</div>) }} />
-      <Link to='/book/sub'><div className='menuItem'>subRouter</div></Link>
+      <Link className='subRouter' to='/book/sub'><div className='menuItem'>subRouter</div></Link>
     </HomePage>
   }
 }

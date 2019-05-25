@@ -1,6 +1,6 @@
 import React from 'react'
 import { hydrate } from 'react-dom'
-import { BrowserRouter as Router } from 'react-router-dom'
+import { HashRouter as Router } from 'react-router-dom'
 import App from './router/index'
 import { Provider } from 'react-redux'
 import {getClientStore} from './store/index'

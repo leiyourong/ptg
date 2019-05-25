@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites errors="0"
+            failures="0"
+            tests="3">
+
+  <testsuite name="index.test"
+    errors="0" failures="0" hostname="" id="" package="index.test" skipped="0"
+    tests="3" time="11.05" timestamp="">
+  
+    <testcase name="step one: open homepage and check" classname="index.test" time="1.052" assertions="4">
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step two: test router -&gt; worker" classname="index.test" time="1.197" assertions="3">
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="step three: test router -&gt; books" classname="index.test" time="8.804" assertions="13">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+
+  
+
+  
+  </testsuite>
+</testsuites>

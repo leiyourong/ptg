@@ -15,20 +15,22 @@ export default class book extends Component {
       title: '名字',
       dataIndex: 'name',
       key: 'name',
+      className: 'nameCell',
     }, {
       title: '价格',
       dataIndex: 'price',
       key: 'price',
+      className: 'priceCell',
     }, {
       title: '操作',
       key: 'action',
       render: (text, record) => (
         <div>
           <span style={{ display: 'inline-block', paddingRight: '10px' }}>
-            <a href='javascript:;' onClick={ this.deleteItem.bind(this, text.id) }>删除</a>
+            <a className='del' href='javascript:;' onClick={ this.deleteItem.bind(this, text.id) }>删除</a>
           </span>
           <span style={{ display: 'inline-block', paddingRight: '10px' }}>
-            <a href='javascript:;' onClick={ this.editItem.bind(this, text.id) }>编辑</a>
+            <a className='edit' href='javascript:;' onClick={ this.editItem.bind(this, text.id) }>编辑</a>
           </span>
         </div>
       ),
@@ -36,7 +38,8 @@ export default class book extends Component {
 
     this.buttons = [{
       name: '新增',
-      action: this.showDialog.bind(this)
+      action: this.showDialog.bind(this),
+      type: 'add'
     }]
 
     this.formItems = [{
@@ -124,7 +127,7 @@ export default class book extends Component {
 
   render () {
     return ( 
-      <div>
+      <div className='booksContainer'>
         <Grid buttons={ this.buttons } columns={ this.columns } items={ this.props.items } ></Grid>
         <Form
           isModal={ true }
@@ -135,7 +138,7 @@ export default class book extends Component {
           handleSubmit={ this.handleSubmit.bind(this) }
           items={ this.formItems }>
          </Form>
-         <Prompt message='哈哈，5%的几率出现' when={Math.random() > 0.95} />
+         <Prompt message='哈哈，5%的几率出现' when={Math.random() > 1} />
          <Route path='/book/sub' render={() => { return (<div>ReactRouter4-subRoute</div>) }} />
          <Link to='/book/sub'><div className='menuItem'>subRouter</div></Link>
       </div>

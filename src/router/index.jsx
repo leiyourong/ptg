@@ -35,13 +35,13 @@ export default () => {
            mode='horizontal'
          >
          <Menu.Item key='1'>
-           <Link to='/worker'><div className='menuItem'>Worker</div></Link>
+           <Link to='/worker' className='worker'><div className='menuItem'>Worker</div></Link>
          </Menu.Item>
          <Menu.Item key='2'>
-           <Link to='/book'><div className='menuItem'>图书管理</div></Link>
+           <Link to='/book' className='books'><div className='menuItem'>图书管理</div></Link>
          </Menu.Item>
          <Menu.Item key='3'>
-           <Link to='/demo'><div className='menuItem'>React16 Demo</div></Link>
+           <Link to='/demo' className='react16'><div className='menuItem'>React16 Demo</div></Link>
          </Menu.Item>
         </Menu>
       </div>

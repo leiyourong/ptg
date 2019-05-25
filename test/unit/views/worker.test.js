@@ -12,14 +12,14 @@ describe('it should be a react Component', () => {
         expect(resultContainer.text()).toBe('10');
     }) 
     test('it should have correct react component property', () => {
-        // const app = mount(<MyWorker />);
-        // const buttons = app.find('Button');
-        // expect(buttons.length).toBe(3);
-        // // NoWebWork.simulate('click');
-        // buttons.at(0).simulate('click');
-        // expect.hasAssertions();
-        // buttons.at(2).simulate('click');
-        // // console.log(wrapper);
-        // // expect(Home).toHaveProperty('type');
+        const app = mount(<MyWorker />);
+        const buttons = app.find('Button');
+        expect(buttons.length).toBe(3);
+        // NoWebWork.simulate('click');
+        buttons.at(0).simulate('click');
+        expect.hasAssertions();
+        buttons.at(2).simulate('click');
+        // console.log(wrapper);
+        // expect(Home).toHaveProperty('type');
     })
 })

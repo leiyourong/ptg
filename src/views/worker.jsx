@@ -12,7 +12,8 @@ export default class worker extends Component {
   noWebWork = () => {
     var t = Date.now()
     var result = []
-    fetch('http://localhost:1215').then(data => {
+    fetch('http://localhost:3000').then(data => {
+
       return `insideFetch: ${Date.now() - t}`
     })
     // 耗时操作-start 寻找1000000个随机数中的中位数
@@ -28,14 +29,20 @@ export default class worker extends Component {
   }
 
   onlyAjax = () => {
+    // 耗时操作-结束
     var t = Date.now()
-    fetch('http://localhost:1215').then(data => {
-      return `insideFetch: ${Date.now() - t}`
+    fetch('http://localhost:3000').then(data => {
+      const time = Date.now() - t;
+      this.setState({
+        result: time
+      })
+      return `insideFetch: ${time}`
     })
     // 耗时操作-结束
     this.setState({
-      result: 0
+      result: 111
     })
+    console.log(this.state.result)
   }
 
   withWebWork = () => {
@@ -45,7 +52,7 @@ export default class worker extends Component {
     var t = Date.now()
     var self = this
     var work = new Worker('worker.js')
-    fetch('http://localhost:1215').then(data => {
+    fetch('http://localhost:3000').then(data => {
       return `insideFetch: ${Date.now() - t}`
     })
     work.onmessage = e => {
@@ -59,11 +66,11 @@ export default class worker extends Component {
   }
  
   render () {
-    return <div>
+    return <React.Fragment>
       <div className='result' style={{width: '240px', textAlign: 'center'}}>{this.state.result}</div>
       <Button style={{margin: '10px'}} type='primary' onClick={this.noWebWork}>NoWebWork</Button>
       <Button style={{margin: '10px'}} type='primary' onClick={this.withWebWork}>WithWebWork</Button>
-      <Button type='primary' onClick={this.onlyAjax}>onlyAjax</Button>
-    </div>
+      <Button className='onlyAjax' type='primary' onClick={this.onlyAjax}>onlyAjax</Button>
+    </React.Fragment>
   }
 }

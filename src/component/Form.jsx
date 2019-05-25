@@ -14,7 +14,7 @@ class simpleForm extends Component {
     const { getFieldDecorator } = this.props.form
     const button = !this.props.disabledBtn && (
       <FormItem className='form-action'>
-        <Button type="primary" htmlType="submit">提交</Button>
+        <Button className='commit' type="primary" htmlType="submit">提交</Button>
       </FormItem>
     )
     return (
