@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Grid from '../component/Grid'
 import Form from '../component/Form'
 import { Prompt, Route, Link } from 'react-router-dom'
+import styled from 'styled-components';
 
 export default class book extends Component {
   constructor (props) {
@@ -54,7 +55,8 @@ export default class book extends Component {
 
     this.state = {
       modalVisible: false,
-      data: {}
+      data: {},
+      authorState: 'text'
     }
   }
 
@@ -95,7 +97,8 @@ export default class book extends Component {
 
   componentDidMount() {
     // 做异步请求和组件操作refs等
-    this.props.getItems()
+    this.props.getItems();
+    this.props.getAuthor();
   }
 
   componentWillUnmount() {
@@ -125,9 +128,36 @@ export default class book extends Component {
      // || this.state.modalVisible !== nextState.modalVisible
   }
 
+  handleClick = () => {
+    this.setState({
+      authorState: 'input'
+    })
+  }
+
+  handleBlur = (e) => {
+    this.props.setAuthor(e.target.value || '');
+    this.setState({
+      authorState: 'text'
+    })
+  }
+
   render () {
+    const EditText = styled.div`
+      text-align: center;
+      margin: 10px 0;
+      font-size: 24px;
+      color: red;
+    `
+    const author = this.state.authorState === 'text'
+      ? <EditText onClick={this.handleClick}>{this.props.author}</EditText>
+      : (
+          <EditText>
+            <input onBlur={this.handleBlur} autofocus defaultValue={this.props.author} />
+          </EditText>
+        )
     return ( 
       <div className='booksContainer'>
+        {author}
         <Grid buttons={ this.buttons } columns={ this.columns } items={ this.props.items } ></Grid>
         <Form
           isModal={ true }

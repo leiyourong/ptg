@@ -21,9 +21,6 @@ export default class home extends Component {
       font: 30px;
       color: red;
     `;
-    const HomePageLogin = styled.div`
-
-    `;
     return <HomePage>
       <div className='HomePageLogo'>HomePage</div>
       <Route path='/book/sub' render={() => { return (<div>ReactRouter4-subRoute</div>) }} />

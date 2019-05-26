@@ -1,10 +1,16 @@
 // import { handleActions } from 'redux-actions'
 import { combineReducers } from 'redux'
-import {DELETE_ITEM, ADD_ITEM, GET_ITEM, EDIT_ITEM} from '../constants/index';
+import {DELETE_ITEM, ADD_ITEM, GET_ITEM, EDIT_ITEM, GET_AUTHOR, SET_AUTHOR} from '../constants/index';
 
-import Immutable from 'immutable';
+// import Immutable from 'immutable';
+/**
+ * 不用 immutable 是因为：要嘛频繁用 fromJS 跟 toJS 影响效率。
+ * 或者就必须接收 state 为一个 Immutable.map，那么取值就要用 state.get('xxx') 
+ * -.- 有点麻烦 
+ */
 const initState = {
-  books: []
+  books: [],
+  author: 'nobody'
 }
 
 const items = (state = initState, payload) => {
@@ -27,6 +33,10 @@ const items = (state = initState, payload) => {
         return book
       })
       return Object.assign({}, state, { books })
+    case GET_AUTHOR:
+      return Object.assign({}, state, { author: payload.data })
+    case SET_AUTHOR:
+      return Object.assign({}, state, { author: payload.data })
   }
   return state;
 }
