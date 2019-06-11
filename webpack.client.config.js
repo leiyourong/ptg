@@ -3,6 +3,7 @@ var webpack = require('webpack')
 var HtmlwebpackPlugin = require('html-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin'); 
 var ManifestPlugin = require('webpack-manifest-plugin');
+var WatcherPlugin = require('./watcherPlugin');
 
 var env = process.env.NODE_ENV || 'production';
 var plugins = [
@@ -17,7 +18,7 @@ var plugins = [
     fileName: 'asset-manifest.json',
   }),
 ]
-console.log(env);
+
 if (env === 'development') {
   plugins.push(new HtmlwebpackPlugin({
     title: 'Noobme',
@@ -26,6 +27,7 @@ if (env === 'development') {
     inject: true,
     filename: 'index.html'
   }))
+  plugins.push(new WatcherPlugin());
 }
 module.exports = {
   context: path.resolve(__dirname, './src'),
