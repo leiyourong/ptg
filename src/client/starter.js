@@ -21,6 +21,6 @@ app.use(webpackHotMiddleware(compiler, {
   })
 )
 
-app.listen(4000, () => {
+app.listen(1215, () => {
   console.log('Server is now running at : 4000.')
 })
