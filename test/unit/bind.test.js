@@ -8,8 +8,8 @@ Function.prototype.selfBind = function(context, ...args) {
     return func
 }
 
-describe('selfBind', async () => {
-    var func = function(left, right) {
+describe('selfBind', () => {
+    const func = function(left, right) {
         return `${this.count}-${left}-${right}`;
     }
 
