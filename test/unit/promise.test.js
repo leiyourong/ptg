@@ -1,46 +1,46 @@
 /* eslint-disable */
-// var class2type = {
-//     "[object Boolean]": "boolean",
-//     "[object Number]": "number",
-//     "[object String]": "string",
-//     "[object Function]": "function",
-//     "[object Array]": "array",
-//     "[object Date]": "date",
-//     "[object RegExp]": "regexp",
-//     "[object Object]": "object",
-//     "[object Error]": "error",
-//     "[object Symbol]": "symbol"
-// }
 
-class Promise {
+const PROMISE_STATE = {
+    pending: 'pending',
+    fulfilled: 'fulfilled',
+    rejected: 'rejected'
+}
+
+class XPromise {
     result = ''
     
-    STATE = {
-        pending: 'pending',
-        fullfilled: 'fullfilled',
-        rejected: 'rejected'
+    state = PROMISE_STATE.pending
+
+    constructor(func) {
+        if (Object.prototype.toString.call(func) !== '[object Function]') {
+            throw new Error(`${JSON.stringify(func)} is not a function`);
+        }
+        try {
+            func.call(window, this._doResolve, this._doReject)
+        } catch (error) {
+            return this._doReject(error);
+        }
+        
     }
 
-    state = this.STATE.pending
-
     static resolve = data => {
-        return new Promise(resolve => resolve(data));
+        return new XPromise(resolve => resolve(data));
     }
     
     static reject = data => {
-        return new Promise((resolve, reject) => reject(data));
+        return new XPromise((resolve, reject) => reject(data));
     }
     
     static all = promises => {
-        if (Array.isArray(promises)) {
-            return Promise.reject(new Error(`${JSON.stringify(promises)} is not a array`));
+        if (!Array.isArray(promises)) {
+            return XPromise.reject(new Error(`${JSON.stringify(promises)} is not a array`));
         }
-        const allPromise = promises.every(promise => promise instanceof Promise);
+        const allPromise = promises.every(promise => promise instanceof XPromise);
         if (!allPromise) {
-            return Promise.reject(new Error(`${JSON.stringify(promises)} only process Promise`));
+            return XPromise.reject(new Error(`${JSON.stringify(promises)} only process XPromise`));
         }
     
-        return new Promise((resolve, reject) => {
+        return new XPromise((resolve, reject) => {
             let fullfilledCount = 0;
             const result = [];
     
@@ -59,94 +59,146 @@ class Promise {
                     reject(e);
                 })
             })
-            return new Promise(resolve => resolve(data));
         })
     }
 
-    doResolve = data => {
-        if (this.state === this.STATE.pending) {
-            this.state = this.STATE.fullfilled;
+    _doResolve = data => {
+        if (this.state === PROMISE_STATE.pending) {
+            this.state = PROMISE_STATE.fulfilled;
             this.result = data;
         }
+        return this;
     }
 
-    doReject = error => {
-        if (this.state === this.STATE.pending) {
-            this.state = this.STATE.rejected;
+    _doReject = error => {
+        if (this.state === PROMISE_STATE.pending) {
+            this.state = PROMISE_STATE.rejected;
             this.result = error;
         }
+        return this;
     }
 
-    constructor(func) {
-        if (Object.prototype.toString.call(func) !== '[object Function]') {
-            throw new Error(`${JSON.stringify(func)} is not a function`);
+    then = callback => {
+        if (this.state === PROMISE_STATE.fulfilled) {
+            this.result = callback(this.result);
+        } else {
+            setTimeout(() => {
+                this.then(callback)
+            }, 100)
         }
-        func.call(window, this.doResolve, this.doReject)
+        return this;
     }
 
-    then = function(callback) {
-        if (this.state === this.STATE.fullfilled) {
-            callback(this.result);
-            return this
+    catch = callback => {
+        if (this.state === PROMISE_STATE.rejected) {
+            this.result = callback(this.result);
+        } else {
+            setTimeout(() => {
+                this.catch(callback)
+            }, 100)
         }
-        setTimeout(() => {
-            this.then(callback)
-        }, 100)
-    }
-
-    catch = function(callback) {
-        if (this.state === this.STATE.rejected) {
-            callback(this.result);
-            return this
-        }
-        setTimeout(() => {
-            this.catch(callback)
-        }, 100)
+        return this
     }
 }
 
 describe('promise constructor', () => {
     it('should receive a function and initialize with new', () => {
-        const inst1 = new Promise(() => {});
-        expect(inst1 instanceof Promise).toBe(true);
+        const inst1 = new XPromise(() => {});
+        expect(inst1 instanceof XPromise).toBe(true);
     })
 
     // You must wrap the code in a function, otherwise the error will not be caught and the assertion will fail
     it('should throw error when initialized without a function', () => {
-        expect(() => {new Promise(1)}).toThrow('1 is not a function');
+        expect(() => {new XPromise(1)}).toThrow('1 is not a function');
     })
 });
 
 describe('promise then', () => {
-    it('.then should get corret result', () => {
-        const inst1 = new Promise(resolve => resolve(123));
+    it('.then should get corret result', done => {
+        const inst1 = new XPromise(resolve => resolve(123));
         const inst2 = inst1.then(data => {
             expect(data).toBe(123);
+            done();
         })
-        expect(inst2 instanceof Promise).toBe(true);
+        expect(inst2 instanceof XPromise).toBe(true);
     })
 })
 
-describe('Promise static method', () => {
-    it('resolve', () => {
-        const inst1 = Promise.resolve(123);
+describe('promise catch', () => {
+    it('.catch should get corret result', done => {
+        const inst1 = new XPromise((resolve, reject) => reject(123));
+        const inst2 = inst1.catch(data => {
+            expect(data).toBe(123);
+            done();
+        })
+        expect(inst2 instanceof XPromise).toBe(true);
+    })
+})
+
+describe('XPromise static method', () => {
+    it('resolve', done => {
+        const inst1 = XPromise.resolve(123);
         const inst2 = inst1.then(data => {
             expect(data).toBe(123);
+            done();
         })
-        expect(inst2 instanceof Promise).toBe(true);
+        expect(inst2 instanceof XPromise).toBe(true);
     })
 
-    it('all', () => {
-        const syncPromiseInst = new Promise(resolve => resolve('syncPromise'));
-        const asyncPromiseInst = new Promise(resolve => {
+    it('all', done => {
+        const syncPromiseInst = new XPromise(resolve => resolve('syncPromise'));
+        const asyncPromiseInst = new XPromise(resolve => {
             setTimeout(() => {
                 resolve('asyncPromise')
             })
         });
-        Promise.all([asyncPromiseInst, syncPromiseInst]).then(data => {
+        XPromise.all([asyncPromiseInst, syncPromiseInst]).then(data => {
             expect(data.length).toBe(2);
             expect(data[0]).toBe('asyncPromise');
             expect(data[1]).toBe('syncPromise');
+            done();
+        })
+    })
+
+    it('all with reject', done => {
+        const syncPromiseInst = new XPromise(resolve => resolve('syncPromise'));
+        const asyncPromiseInst = new XPromise((resolve, reject) => {
+            setTimeout(() => {
+                reject('asyncPromiseError')
+            })
+        });
+
+        XPromise.all([asyncPromiseInst, syncPromiseInst]).catch(errMsg => {
+            expect(errMsg).toBe('asyncPromiseError');
+            done();
+        })
+    })
+})
+
+describe('advanced call', () => {
+    it('cycle call', done => {
+        const inst1 = XPromise.resolve(123);
+        inst1.then(data => {
+            expect(data).toBe(123);
+            return 456
+        }).then(data => {
+            expect(data).toBe(456);
+            done();
+        })
+    })
+
+    it('could catch error', done => {
+        const inst1 = new XPromise((resolve, reject) => {
+            const a = 1;
+            a.b.c = 456;
+            resolve(456);
+        });
+
+        inst1.then(() => {
+            throw new Error('should not be called');
+        }).catch(data => {
+            expect(data instanceof Error).toBe(true);
+            done();
         })
     })
 })
