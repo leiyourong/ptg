@@ -1,26 +1,122 @@
 /* eslint-disable */
 
-const PROMISE_STATE = {
+const STATUS = {
     pending: 'pending',
     fulfilled: 'fulfilled',
     rejected: 'rejected'
 }
 
-class XPromise {
-    result = ''
-    
-    state = PROMISE_STATE.pending
+const isFunction = target => {
+    return Object.prototype.toString.call(target) === '[object Function]';
+}
 
-    constructor(func) {
-        if (Object.prototype.toString.call(func) !== '[object Function]') {
-            throw new Error(`${JSON.stringify(func)} is not a function`);
+class XPromise {
+    constructor(handle) {
+        debugger
+        if (!isFunction(handle)) {
+            throw new Error(`${JSON.stringify(handle)} is not a function`);
         }
+
+        this._status = STATUS.pending;
+        this._value = undefined;
+
+        this._filfulledQueue = [];
+        this._rejectedQueue = [];
+
         try {
-            func.call(window, this._doResolve, this._doReject)
+            handle(this._doResolve, this._doReject)
         } catch (error) {
             return this._doReject(error);
         }
+    }
+
+    _doResolve = data => {
+        if (this._status !== STATUS.pending) {
+            return;
+        }
+
+        this._status = STATUS.fulfilled;
+        this._value = data;
         
+        while(this._filfulledQueue.length) {
+            const callback = this._filfulledQueue.shift();
+            callback(this._value);
+        }
+
+        return this;
+    }
+
+    _doReject = error => {
+        if (this._status !== STATUS.pending) {
+            return;
+        }
+
+        this._status = STATUS.rejected;
+        this._value = error;
+        
+        while(this._rejectedQueue.length) {
+            const callback = this._rejectedQueue.shift();
+            callback(this._value);
+        }
+
+        return this;
+    }
+
+    then = (onFilfulledCallback, onRejectedCallback) => {
+        return new XPromise((resolve, reject) => {
+            const _fulfilled = value => {
+                try {
+                    if (!isFunction(onFilfulledCallback)) {
+                        return resolve(value);
+                    }
+
+                    const newValue = onFilfulledCallback(value);
+                    if (!(newValue instanceof XPromise)) {
+                        return resolve(newValue);
+                    }
+                    
+                    return newValue.then(data => resolve(data));
+                } catch (error) {
+                    reject(error)
+                }
+            };
+
+            const _rejected = value => {
+                try {
+                    if (!isFunction(onRejectedCallback)) {
+                        return reject(value);
+                    }
+
+                    const newValue = onRejectedCallback(value);
+                    if (newValue instanceof XPromise) {
+                        return reject(newValue);
+                    }
+                    
+                    return reject(XPromise.reject(value));
+                } catch (error) {
+                    reject(error)
+                }
+            };
+
+            switch(this._status) {
+                case STATUS.pending:
+                    this._filfulledQueue.push(onFilfulledCallback);
+                    this._rejectedQueue.push(onRejectedCallback);
+                    break;
+
+                case STATUS.fulfilled:
+                    _fulfilled(this._value);
+                    break;
+
+                case STATUS.rejected:
+                    _rejected(this._value);
+                    break;
+            }
+        });
+    }
+
+    catch = onRejected => {
+        return this.then(undefined, onRejected)
     }
 
     static resolve = data => {
@@ -35,69 +131,25 @@ class XPromise {
         if (!Array.isArray(promises)) {
             return XPromise.reject(new Error(`${JSON.stringify(promises)} is not a array`));
         }
-        const allPromise = promises.every(promise => promise instanceof XPromise);
-        if (!allPromise) {
-            return XPromise.reject(new Error(`${JSON.stringify(promises)} only process XPromise`));
-        }
+
+        promises = promises.map(promise => promise instanceof XPromise ? promise : XPromise.resolve(promise));
     
         return new XPromise((resolve, reject) => {
             let fullfilledCount = 0;
             const result = [];
-    
-            function checkForOut() {
-                if (fullfilledCount === promises.length) {
-                    resolve(result);
-                }
-            }
-    
+
             promises.forEach((promise, index) => {
                 promise.then(data => {
                     result[index] = data;
                     fullfilledCount++;
-                    checkForOut();
-                }).catch(e => {
+                    if (fullfilledCount === promises.length) {
+                        resolve(result);
+                    }
+                }, e => {
                     reject(e);
                 })
             })
         })
-    }
-
-    _doResolve = data => {
-        if (this.state === PROMISE_STATE.pending) {
-            this.state = PROMISE_STATE.fulfilled;
-            this.result = data;
-        }
-        return this;
-    }
-
-    _doReject = error => {
-        if (this.state === PROMISE_STATE.pending) {
-            this.state = PROMISE_STATE.rejected;
-            this.result = error;
-        }
-        return this;
-    }
-
-    then = callback => {
-        if (this.state === PROMISE_STATE.fulfilled) {
-            this.result = callback(this.result);
-        } else {
-            setTimeout(() => {
-                this.then(callback)
-            }, 100)
-        }
-        return this;
-    }
-
-    catch = callback => {
-        if (this.state === PROMISE_STATE.rejected) {
-            this.result = callback(this.result);
-        } else {
-            setTimeout(() => {
-                this.catch(callback)
-            }, 100)
-        }
-        return this
     }
 }
 
@@ -121,6 +173,14 @@ describe('promise then', () => {
             done();
         })
         expect(inst2 instanceof XPromise).toBe(true);
+    })
+
+    it('.then should get corret result part 2', done => {
+        const inst1 = new XPromise((resolve, reject) => reject(123));
+        inst1.then(() => {}, data => {
+            expect(data).toBe(123);
+            done();
+        })
     })
 })
 
@@ -173,6 +233,15 @@ describe('XPromise static method', () => {
             done();
         })
     })
+
+    it('parameter of all isn\'t xpromise', () => {
+        XPromise.all(['asyncPromiseInst', 'syncPromiseInst']).then(data => {
+            expect(data.length).toBe(2);
+            expect(data[0]).toBe('asyncPromise');
+            expect(data[1]).toBe('syncPromise');
+            done();
+        })
+    })
 })
 
 describe('advanced call', () => {
@@ -183,6 +252,9 @@ describe('advanced call', () => {
             return 456
         }).then(data => {
             expect(data).toBe(456);
+            return XPromise.resolve(789);
+        }).then(data => {
+            expect(data).toBe(789);
             done();
         })
     })
