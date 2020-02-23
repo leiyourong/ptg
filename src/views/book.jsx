@@ -1,177 +1,181 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Grid from '../component/Grid'
 import Form from '../component/Form'
 import { Prompt, Route, Link } from 'react-router-dom'
-import styled from 'styled-components';
+import styled from 'styled-components'
+import { DELETE_ITEM, ADD_ITEM, GET_ITEM, EDIT_ITEM, GET_AUTHOR, SET_AUTHOR } from '../constants/index'
 
-export default class book extends Component {
-  constructor (props) {
-    super(props)
-    this.columns = [{
-      title: 'ID',
-      dataIndex: 'id',
-      key: 'id',
-      render: text => <a href='javascript:;'>{text}</a>,
-    }, {
-      title: '名字',
-      dataIndex: 'name',
-      key: 'name',
-      className: 'nameCell',
-    }, {
-      title: '价格',
-      dataIndex: 'price',
-      key: 'price',
-      className: 'priceCell',
-    }, {
-      title: '操作',
-      key: 'action',
-      render: (text, record) => (
-        <div>
-          <span style={{ display: 'inline-block', paddingRight: '10px' }}>
-            <a className='del' href='javascript:;' onClick={ this.deleteItem.bind(this, text.id) }>删除</a>
-          </span>
-          <span style={{ display: 'inline-block', paddingRight: '10px' }}>
-            <a className='edit' href='javascript:;' onClick={ this.editItem.bind(this, text.id) }>编辑</a>
-          </span>
-        </div>
-      ),
-    }]
+const { useState, useEffect, useReducer } = React
 
-    this.buttons = [{
-      name: '新增',
-      action: this.showDialog.bind(this),
-      type: 'add'
-    }]
-
-    this.formItems = [{
-      label: '名字',
-      name: 'name',
-      required: '请输入名字'
-    }, {
-      label: '价格',
-      name: 'price',
-      required: '请输入价格'
-    }]
-
-    this.state = {
-      modalVisible: false,
-      data: {},
-      authorState: 'text'
+const useBooks = (initState) => {
+  return useReducer((state, action) => {
+    let books = []
+    switch (action.type) {
+      case GET_ITEM:
+        return Object.assign({}, state, { books })
+      case ADD_ITEM:
+        return Object.assign({}, state, { books: [ ...state.books, { ...action.data, id: Date.now() } ] })
+      case DELETE_ITEM:
+        books = state.books.filter(book => (book.id !== action.data))
+        return Object.assign({}, state, { books })
+      case EDIT_ITEM:
+        const { id, name, price } = action.data
+        books = state.books.map(book => {
+          if (book.id === id) {
+            Object.assign(book, { name, price })
+          }
+          return book
+        })
+        return Object.assign({}, state, { books })
+      case GET_AUTHOR:
+        return Object.assign({}, state, { author: action.data })
+      case SET_AUTHOR:
+        return Object.assign({}, state, { author: action.data })
     }
-  }
+    return state
+  }, initState)
+}
 
-  handleSubmit ({ method, ...data }) {
+export default () => {
+  const [authorState, setAuthorState] = useState('text')
+  const [modalVisible, setModalVisible] = useState(false)
+  const [data, setData] = useState({})
+  const [state, dispatch] = useBooks({
+    books: [],
+    author: 'nobody'
+  })
+
+  useEffect(() => {
+    // 本来应该 mock get
+    // dispatch({
+    //   type: GET_ITEM
+    // })
+    // dispatch({
+    //   type: GET_AUTHOR
+    // })
+  }, [])
+
+  const handleSubmit = ({ method, ...data }) => {
     if (method === 'edit') {
-      this.props.editItem({
-        id: this.state.data.id,
-        ...data
+      dispatch({
+        type: EDIT_ITEM,
+        data
       })
     } else {
-      this.props.addItem(data)
+      dispatch({
+        type: ADD_ITEM,
+        data
+      })
     }
-    this.setState({
-      modalVisible: false,
-      data: {}
+
+    setModalVisible(false)
+    setData({})
+  }
+
+  const handleCancel = () => {
+    setModalVisible(false)
+    setData({})
+  }
+
+  const deleteItem = (id) => {
+    dispatch({
+      type: DELETE_ITEM,
+      data: id
     })
   }
 
-  handleCancel () {
-    this.setState({
-      modalVisible: false,
-      data: {}
+  const editItem = (id) => {
+    showDialog(state.books.find(item => +item.id === +id))
+  }
+
+  const showDialog = (data) => {
+    setModalVisible(true)
+    setData(data)
+  }
+
+  const handleClick = () => setAuthorState('input')
+
+  const handleBlur = (e) => {
+    dispatch({
+      type: SET_AUTHOR,
+      data: e.target.value || ''
     })
+    setAuthorState('text')
   }
 
-  componentWillReceiveProps (nextProps) {
-    // 一般用于父组件props改变，通知子组件修改
-  }
-  componentWillUpdate (nextProps, nextState) {
-    // 组件更新前渲染，不能用setState
-  }
-  componentDidUpdate (prevProps, prevState) {
-    // 组件更新前渲染后
-  }
-  componentWillMount () {
-    // 不建议做异步操作，且组件还未渲染，即将被废弃
-  }
-
-  componentDidMount() {
-    // 做异步请求和组件操作refs等
-    this.props.getItems();
-    this.props.getAuthor();
-  }
-
-  componentWillUnmount() {
-      console.log('componentWillUnmount')
-  }
-
-  deleteItem (id) {
-    this.props.deleteItem(id)
-  }
-
-  editItem (id) {
-    const data = this.props.items.find(item => +item.id === +id)
-    this.showDialog(data)
-  }
-
-  showDialog (data) {
-    this.setState({
-      modalVisible: true,
-      data
-    })
-  }
-
-  // 注意入参
-  shouldComponentUpdate(nextProps, nextState) {
-     return true
-     // return (this.props.items.length !== nextProps.items.length)
-     // || this.state.modalVisible !== nextState.modalVisible
-  }
-
-  handleClick = () => {
-    this.setState({
-      authorState: 'input'
-    })
-  }
-
-  handleBlur = (e) => {
-    this.props.setAuthor(e.target.value || '');
-    this.setState({
-      authorState: 'text'
-    })
-  }
-
-  render () {
-    const EditText = styled.div`
-      text-align: center;
-      margin: 10px 0;
-      font-size: 24px;
-      color: red;
-    `
-    const author = this.state.authorState === 'text'
-      ? <EditText onClick={this.handleClick}>{this.props.author}</EditText>
-      : (
-          <EditText>
-            <input onBlur={this.handleBlur} autofocus defaultValue={this.props.author} />
-          </EditText>
-        )
-    return ( 
-      <div className='booksContainer'>
-        {author}
-        <Grid buttons={ this.buttons } columns={ this.columns } items={ this.props.items } ></Grid>
-        <Form
-          isModal={ true }
-          visible={ this.state.modalVisible }
-          data={ this.state.data }
-          title='新增书本'  
-          handleCancel={ this.handleCancel.bind(this) }
-          handleSubmit={ this.handleSubmit.bind(this) }
-          items={ this.formItems }>
-         </Form>
-         <Prompt message='哈哈，5%的几率出现' when={Math.random() > 1} />
-         <Route path='/book/sub' render={() => { return (<div>ReactRouter4-subRoute</div>) }} />
-         <Link to='/book/sub'><div className='menuItem'>subRouter</div></Link>
+  const columns = [{
+    title: 'ID',
+    dataIndex: 'id',
+    key: 'id',
+    render: text => <a href='javascript:;'>{text}</a>
+  }, {
+    title: '名字',
+    dataIndex: 'name',
+    key: 'name',
+    className: 'nameCell'
+  }, {
+    title: '价格',
+    dataIndex: 'price',
+    key: 'price',
+    className: 'priceCell'
+  }, {
+    title: '操作',
+    key: 'action',
+    render: (text, record) => (
+      <div>
+        <span style={{ display: 'inline-block', paddingRight: '10px' }}>
+          <a className='del' href='javascript:;' onClick={ deleteItem.bind(this, text.id) }>删除</a>
+        </span>
+        <span style={{ display: 'inline-block', paddingRight: '10px' }}>
+          <a className='edit' href='javascript:;' onClick={ editItem.bind(this, text.id) }>编辑</a>
+        </span>
       </div>
     )
-  }
+  }]
+  const buttons = [{
+    name: '新增',
+    action: showDialog.bind(this),
+    type: 'add'
+  }]
+  const formItems = [{
+    label: '名字',
+    name: 'name',
+    required: '请输入名字'
+  }, {
+    label: '价格',
+    name: 'price',
+    required: '请输入价格'
+  }]
+
+  const EditText = styled.div`
+    text-align: center;
+    margin: 10px 0;
+    font-size: 24px;
+    color: red;
+  `
+  const author = authorState === 'text'
+    ? <EditText onClick={handleClick}>{state.author}</EditText>
+    : (
+      <EditText>
+        <input onBlur={handleBlur} autoFocus defaultValue={state.author} />
+      </EditText>
+    )
+  return (
+    <div className='booksContainer'>
+      {author}
+      <Grid buttons={buttons} columns={ columns } items={ state.books } ></Grid>
+      <Form
+        isModal={ true }
+        visible={ modalVisible }
+        data={ data }
+        title='新增书本'
+        handleCancel={ handleCancel }
+        handleSubmit={ handleSubmit }
+        items={ formItems }>
+      </Form>
+      <Prompt message='哈哈，5%的几率出现' when={Math.random() > 1} />
+      <Route path='/book/sub' render={() => { return (<div>ReactRouter4-subRoute</div>) }} />
+      <Link to='/book/sub'><div className='menuItem'>subRouter</div></Link>
+    </div>
+  )
 }

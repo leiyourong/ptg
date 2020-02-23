@@ -1,30 +1,23 @@
-import React, { Component } from 'react';
-import {Route, Link} from 'react-router-dom';
-import styled from 'styled-components';
+import React, { Component } from 'react'
+import styled from 'styled-components'
+import { Button } from 'antd'
 
-export default class home extends Component {
-  state = {
-    books: [],
+export default class Home extends Component {
+  addNum = () => {
+    this.props.addNum(1)
   }
 
-  componentDidMount() {
-    fetch('/books').then(response => {
-      if (response.status === 200) {
-        console.log(response);
-        return response;
-      }
-    })
-  }
-
-  render() {
+  render () {
     const HomePage = styled.div`
+      margin: 50px;
       font: 30px;
       color: red;
-    `;
-    return <HomePage>
-      <div className='HomePageLogo'>HomePage</div>
-      <Route path='/book/sub' render={() => { return (<div>ReactRouter4-subRoute</div>) }} />
-      <Link className='subRouter' to='/book/sub'><div className='menuItem'>subRouter</div></Link>
-    </HomePage>
+    `
+    return (
+      <HomePage>
+        <div>{this.props.num}</div>
+        <Button onClick={this.addNum}>Add</Button>
+      </HomePage>
+    )
   }
 }
