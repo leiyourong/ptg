@@ -49,8 +49,9 @@ async function checkDirectory() {
 
 async function writeToFile() {
   await checkDirectory()
+  const date = new Date()
   const buffer = xlsx.build([...previousData, {
-    name: new Date().toJSON(),
+    name: `${date.getMonth()+1}${date.getDate()}${date.getHours()}${date.getMinutes()}${date.getSeconds()}`,
     data: allInfos
   }]);
   fs.writeFile(`${dir}/house.xlsx`, buffer, function(err) {
