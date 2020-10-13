@@ -4,4 +4,4 @@ for (let index = 0; index < 1000000; index++) {
 }
 result.sort()
 result = result[Math.floor(result.length / 2)]
-postMessage(result)
+postMessage(result) // 假设我还改了这
