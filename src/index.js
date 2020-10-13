@@ -27,12 +27,12 @@ render(
 // Test Array diff
 // const A = new Array(1e2).fill(0).map((_, i) => i + 1)
 // const B1 = [...A]
-// // 交换前两个元素，强制跳过数组检查
+// // 交换前两个元素，强制跳过数组检查 我也改了
 // B1[1] = 3
 // B1[2] = 2
 
 // const B2 = [...A]
-// // 将最后一个元素放到前面去，触发其余元素的 placement
+// // 将最后一个元素放到前面去，触发其余元素的 placement 我还改了
 // B2.unshift(B2.pop())
 // const B3 = [...A].reverse()
 
